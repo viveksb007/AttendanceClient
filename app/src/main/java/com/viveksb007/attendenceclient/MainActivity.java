@@ -16,6 +16,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -119,13 +120,17 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void result) {
-            if (response == "404") {
-                textResponse.setText(response + "Not Marked");
-            } else if(response == "200") {
-                textResponse.setText("Your attendence is Marked :D");
-                stopWifi();
-            }else {
-                textResponse.setText(response);
+            switch (response) {
+                case "404":
+                    textResponse.setText(String.format("%s Not Marked", response));
+                    break;
+                case "200":
+                    textResponse.setText(R.string.success_attendance);
+                    stopWifi();
+                    break;
+                default:
+                    textResponse.setText(response);
+                    break;
             }
             super.onPostExecute(result);
         }

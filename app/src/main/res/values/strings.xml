@@ -3,4 +3,5 @@
     <string name="scan_access_points">Scan Access Points</string>
     <string name="mark_attendence">Mark Attendence</string>
     <string name="attendence_status_absent">Attendence Status : Absent</string>
+    <string name="success_attendance">Your attendence is Marked :D</string>
 </resources>
