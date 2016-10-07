@@ -1,15 +1,20 @@
 package com.viveksb007.attendenceclient;
 
+import android.Manifest;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -18,28 +23,57 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Objects;
 
+import pub.devrel.easypermissions.EasyPermissions;
+
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG = getClass().getSimpleName();
+    private static final int RC_READ_PHONE_STATE = 101;
+    private static final int RC_CHANGE_WIFI_STATE = 102;
     TextView textResponse;
-    EditText editTextAddress, editTextPort;
+    TextView tv_device_ID;
     Button btnMarkAttendence;
-    String MAC_ADDRESS;
+    String DEVICE_ID;
+
+    public static String getDeviceID(Context context) {
+        final String deviceID = ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
+        if (deviceID != null) {
+            return deviceID;
+        } else {
+            return Build.SERIAL;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getPermissions();
         WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        MAC_ADDRESS = wifiInfo.getMacAddress();
+        //MAC_ADDRESS = wifiInfo.getMacAddress();
 
-        editTextAddress = (EditText) findViewById(R.id.address);
-        editTextPort = (EditText) findViewById(R.id.port);
+        tv_device_ID = (TextView) findViewById(R.id.tv_device_id);
+        DEVICE_ID = getDeviceID(MainActivity.this);
+        tv_device_ID.setText("Device ID : " + DEVICE_ID);
         btnMarkAttendence = (Button) findViewById(R.id.connect);
         textResponse = (TextView) findViewById(R.id.response);
-
         btnMarkAttendence.setOnClickListener(buttonConnectOnClickListener);
+    }
+
+    private void getPermissions() {
+        if (!EasyPermissions.hasPermissions(this, Manifest.permission.READ_PHONE_STATE)) {
+            EasyPermissions.requestPermissions(this, "This app needs to Read Device ID for classification", RC_READ_PHONE_STATE, Manifest.permission.READ_PHONE_STATE);
+        }
+        if (!EasyPermissions.hasPermissions(this, Manifest.permission.CHANGE_WIFI_STATE)) {
+            EasyPermissions.requestPermissions(this, "This app needs this permission to function properly", RC_CHANGE_WIFI_STATE, Manifest.permission.CHANGE_WIFI_STATE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
     View.OnClickListener buttonConnectOnClickListener =
@@ -47,9 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onClick(View arg0) {
-                    MyClientTask myClientTask = new MyClientTask(
-                            editTextAddress.getText().toString(),
-                            Integer.parseInt(editTextPort.getText().toString()));
+                    MyClientTask myClientTask = new MyClientTask();
                     myClientTask.execute();
                 }
             };
@@ -60,9 +92,9 @@ public class MainActivity extends AppCompatActivity {
         int dstPort;
         String response = "";
 
-        MyClientTask(String addr, int port) {
-            dstAddress = addr;
-            dstPort = port;
+        MyClientTask() {
+            dstAddress = "192.168.43.1";
+            dstPort = 8080;
         }
 
         @Override
@@ -78,8 +110,8 @@ public class MainActivity extends AppCompatActivity {
                 dataOutputStream = new DataOutputStream(socket.getOutputStream());
                 dataInputStream = new DataInputStream(socket.getInputStream());
 
-                if (MAC_ADDRESS != null) {
-                    dataOutputStream.writeUTF(MAC_ADDRESS);
+                if (DEVICE_ID != null) {
+                    dataOutputStream.writeUTF(DEVICE_ID);
                 }
 
                 response = dataInputStream.readUTF();
@@ -126,6 +158,10 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case "200":
                     textResponse.setText(R.string.success_attendance);
+                    stopWifi();
+                    break;
+                case "420":
+                    textResponse.setText(R.string.duplicate_message);
                     stopWifi();
                     break;
                 default:

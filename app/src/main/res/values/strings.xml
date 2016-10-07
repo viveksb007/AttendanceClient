@@ -4,4 +4,5 @@
     <string name="mark_attendence">Mark Attendence</string>
     <string name="attendence_status_absent">Attendence Status : Absent</string>
     <string name="success_attendance">Your attendence is Marked :D</string>
+    <string name="duplicate_message">Kitne baar lagayega bhai, ho gyi mark</string>
 </resources>
