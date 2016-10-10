@@ -25,7 +25,7 @@ import java.util.Objects;
 
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private final String TAG = getClass().getSimpleName();
     private static final int RC_READ_PHONE_STATE = 101;
@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         //MAC_ADDRESS = wifiInfo.getMacAddress();
 
         tv_device_ID = (TextView) findViewById(R.id.tv_device_id);
+        
         DEVICE_ID = getDeviceID(MainActivity.this);
         tv_device_ID.setText("Device ID : " + DEVICE_ID);
         btnMarkAttendence = (Button) findViewById(R.id.connect);

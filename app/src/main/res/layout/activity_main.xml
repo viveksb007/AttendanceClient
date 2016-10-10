@@ -12,7 +12,17 @@
 
     <TextView
         android:id="@+id/tv_device_id"
-        android:text="DEVICE ID : "
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DEVICE ID : " />
+
+    <TextView
+        android:id="@+id/tv_roll_no"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
