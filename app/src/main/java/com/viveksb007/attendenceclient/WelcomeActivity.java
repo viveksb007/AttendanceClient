@@ -103,6 +103,7 @@ public class WelcomeActivity extends BaseActivity {
 
         rollNo = (EditText) findViewById(R.id.et_select_roll_no);
         rollNo.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+        section.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
 
         Button btnRegister = (Button) findViewById(R.id.btn_register);
         etUname = (EditText) findViewById(R.id.et_user_name);
@@ -137,12 +138,13 @@ public class WelcomeActivity extends BaseActivity {
     }
 
     private void registerUser() {
-        manager.setUserNameAndDeviceID(USER_NAME, DEVICE_ID);
         stYear = String.valueOf(year.getSelectedItem());
         stBranch = String.valueOf(branches.getSelectedItem());
         stSection = section.getText().toString();
         stRollNo = rollNo.getText().toString();
+        USER_NAME = etUname.getText().toString();
 
+        manager.setUserNameAndDeviceID(USER_NAME, DEVICE_ID);
         manager.initialSelection(stYear, stBranch, stSection, stRollNo);
 
         // Register with Firebase { DEVICE-ID: NAME } //

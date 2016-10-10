@@ -36,6 +36,18 @@ public class PrefManager {
         editor.commit();
     }
 
+    public String getDeviceId(){
+        return preferences.getString(DEVICE_ID,"default_ID");
+    }
+
+    public String getUsername(){
+        return preferences.getString(USERNAME,"default_user");
+    }
+
+    public String getRollNo(){
+        return preferences.getString("rollNo","default_roll_no");
+    }
+
     public void initialSelection(String year, String branch, String section, String rollNo) {
         editor.putString("year", year);
         editor.putString("branch", branch);

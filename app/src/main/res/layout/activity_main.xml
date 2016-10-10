@@ -14,17 +14,20 @@
         android:id="@+id/tv_device_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
         android:text="DEVICE ID : " />
 
     <TextView
         android:id="@+id/tv_roll_no"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp" />
 
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp" />
 
     <Button
         android:id="@+id/connect"

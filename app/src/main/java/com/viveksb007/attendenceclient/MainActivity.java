@@ -35,15 +35,6 @@ public class MainActivity extends BaseActivity {
     Button btnMarkAttendence;
     String DEVICE_ID;
 
-    public static String getDeviceID(Context context) {
-        final String deviceID = ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
-        if (deviceID != null) {
-            return deviceID;
-        } else {
-            return Build.SERIAL;
-        }
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,8 +45,12 @@ public class MainActivity extends BaseActivity {
         //MAC_ADDRESS = wifiInfo.getMacAddress();
 
         tv_device_ID = (TextView) findViewById(R.id.tv_device_id);
-        
-        DEVICE_ID = getDeviceID(MainActivity.this);
+        PrefManager manager = new PrefManager(this);
+        DEVICE_ID = manager.getDeviceId();
+        TextView uname = (TextView) findViewById(R.id.tv_name);
+        uname.setText(manager.getUsername());
+        TextView rollNo = (TextView) findViewById(R.id.tv_roll_no);
+        rollNo.setText(manager.getRollNo());
         tv_device_ID.setText("Device ID : " + DEVICE_ID);
         btnMarkAttendence = (Button) findViewById(R.id.connect);
         textResponse = (TextView) findViewById(R.id.response);
