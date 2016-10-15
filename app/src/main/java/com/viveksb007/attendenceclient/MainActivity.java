@@ -30,6 +30,7 @@ public class MainActivity extends BaseActivity {
     private final String TAG = getClass().getSimpleName();
     private static final int RC_READ_PHONE_STATE = 101;
     private static final int RC_CHANGE_WIFI_STATE = 102;
+    private PrefManager manager;
     TextView textResponse;
     TextView tv_device_ID;
     Button btnMarkAttendence;
@@ -45,7 +46,7 @@ public class MainActivity extends BaseActivity {
         //MAC_ADDRESS = wifiInfo.getMacAddress();
 
         tv_device_ID = (TextView) findViewById(R.id.tv_device_id);
-        PrefManager manager = new PrefManager(this);
+        manager = new PrefManager(this);
         DEVICE_ID = manager.getDeviceId();
         TextView uname = (TextView) findViewById(R.id.tv_name);
         uname.setText(manager.getUsername());
@@ -108,6 +109,7 @@ public class MainActivity extends BaseActivity {
 
                 if (DEVICE_ID != null) {
                     dataOutputStream.writeUTF(DEVICE_ID);
+                    dataOutputStream.writeUTF(manager.getRollNo());
                 }
 
                 response = dataInputStream.readUTF();

@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">AttendenceClient</string>
     <string name="scan_access_points">Scan Access Points</string>
-    <string name="mark_attendence">Mark Attendence</string>
-    <string name="attendence_status_absent">Attendence Status : Absent</string>
-    <string name="success_attendance">Your attendence is Marked :D</string>
+    <string name="mark_attendence">Mark Attendance</string>
+    <string name="attendence_status_absent">Attendance Status : Absent</string>
+    <string name="success_attendance">Your attendance is Marked :D</string>
     <string name="duplicate_message">Kitne baar lagayega bhai, ho gyi mark</string>
     <string name="register">Register</string>
     <string name="device_id">Device ID :</string>
@@ -11,6 +11,9 @@
     <string name="about">About</string>
     <string name="select_year">Select Year</string>
     <string name="select_branch">Select Branch</string>
+    <string name="about_app">This app is an attempt to enable Attendance by using Mobile Phones. It uses your Device ID as unique identifier.
+So don\'t hesitate when it asks permission to READ_PHONE_STATE. If any bug is found drop me a message.
+    </string>
 
     <string-array name="academic_year">
         <item>First Year</item>
