@@ -9,6 +9,9 @@ Problems Faced and Solutions :
 * Proxy Prevention : Uses Clients MAC Address to identify each device. So until you  root your phone and change your MAC Address during attendance time, you can`t mark false attendance.
 * Connection Limit of WiFi Hotspot : As soon as Clients app receives conformation of attendance, its WiFi is disabled. So others could mark their attendance.
 
+# Video Demo
+https://www.youtube.com/watch?v=ZXSaDsjqP7c
+
 # License
 >MIT License
 
